@@ -24,3 +24,17 @@ a {
     background: black;
   }
 }
+
+.board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 270px;
+}
+
+.board__square {
+  width: 90px;
+  height: 90px;
+  border: 1px solid red;
+  background-color: cadetblue;
+  cursor: pointer;
+}
