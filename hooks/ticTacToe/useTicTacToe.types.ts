@@ -1,10 +1,19 @@
-export enum GameRules {
-  MinPlaysToCheckWinner = 5,
-}
+import { ReactNode } from "react";
 
-export enum Player {
+export enum Mark {
   Cross = "cross",
   Circle = "circle",
 }
 
-export type WinningResults = Player | "draw";
+export type WinningResults = Mark | "draw";
+
+export type CreateBoardCallBack = (square: {
+  isCircle: () => boolean;
+  isCross: () => boolean;
+  position: number;
+}) => ReactNode;
+
+export type useTicTacToeProps = {
+  playerChoice: Lowercase<keyof typeof Mark>;
+  vsCPU?: boolean;
+};

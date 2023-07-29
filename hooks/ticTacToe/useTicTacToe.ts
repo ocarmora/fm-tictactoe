@@ -1,25 +1,35 @@
 import { useState } from "react";
-import { Player, WinningResults } from "./useTicTacToe.types";
+import {
+  CreateBoardCallBack,
+  WinningResults,
+  useTicTacToeProps,
+  Mark,
+} from "./useTicTacToe.types";
 
-export const useTicTacToe = () => {
-  const [player, setPlayer] = useState(Player.Circle);
-  const [winner, setWinner] = useState<Player>();
+export const useTicTacToe = ({
+  vsCPU = true,
+  playerChoice,
+}: useTicTacToeProps) => {
+  const emptyBoard = () => [...Array(9)];
+
+  const [turn, setTurn] = useState(Mark.Cross);
+  const [winner, setWinner] = useState<Mark>();
   const [winningResults, setWinningResults] = useState<Array<WinningResults>>(
     []
   );
-  const [gameRecords, setGameRecords] = useState<Array<Player>>([...Array(9)]);
+  const [gameRecords, setGameRecords] = useState<Array<Mark>>(emptyBoard());
 
   const startOver = () => {
-    setGameRecords([...Array(9)]);
-    setWinner(undefined);
+    setGameRecords(emptyBoard());
   };
 
   const isValidPlay = (position: number) => {
-    const isEmptySquare = gameRecords[position] === undefined;
-    return isEmptySquare;
+    const isEmptySquare = () => gameRecords[position] === undefined;
+    return isEmptySquare();
   };
 
   const isWinner = () => {
+    let winner = false;
     const winningCombinations = [
       [0, 1, 2],
       [3, 4, 5],
@@ -31,29 +41,27 @@ export const useTicTacToe = () => {
       [2, 5, 8],
     ];
 
-    let winner = false;
+    for (const combination of winningCombinations) {
+      const positionOne = gameRecords[combination[0]];
+      const positionTwo = gameRecords[combination[1]];
+      const positionThree = gameRecords[combination[2]];
 
-    winningCombinations.map((combination) => {
-      if (!winner) {
-        const positionOne = gameRecords[combination[0]];
-        const positionTwo = gameRecords[combination[1]];
-        const positionThree = gameRecords[combination[2]];
+      winner =
+        positionOne &&
+        positionOne == positionTwo &&
+        positionOne == positionThree;
 
-        winner =
-          positionOne &&
-          positionOne == positionTwo &&
-          positionOne == positionThree;
-      }
-    });
+      if (winner) break;
+    }
 
     return winner;
   };
 
   const recordPlay = (position: number) => {
     let currentGame = gameRecords;
-    currentGame[position] = player;
+    currentGame[position] = turn;
 
-    setGameRecords(gameRecords);
+    setGameRecords([...gameRecords, turn]);
   };
 
   const play = (position: number) => {
@@ -62,30 +70,41 @@ export const useTicTacToe = () => {
     recordPlay(position);
 
     if (isWinner()) {
-      const actualGameResults = winningResults;
-      actualGameResults.push(player);
-      setWinningResults(actualGameResults);
-      setWinner(player);
-
-      return startOver();
+      setWinningResults([...winningResults, turn]);
+      setWinner(turn);
+      startOver();
     }
 
-    const nextPlayer = player === Player.Circle ? Player.Cross : Player.Circle;
-
-    setPlayer(nextPlayer);
+    setTurn(turn === Mark.Circle ? Mark.Cross : Mark.Circle);
 
     if (gameRecords.every((position) => position !== undefined)) {
-      const actualGameResults = winningResults;
-      actualGameResults.push("draw");
-      setWinningResults(actualGameResults);
-
-      return startOver();
+      setWinningResults([...winningResults, "draw"]);
+      startOver();
     }
   };
 
+  const createBoard = (cb: CreateBoardCallBack) =>
+    emptyBoard().map((_, index) =>
+      cb({
+        isCircle: () => gameRecords[index] === Mark.Circle,
+        isCross: () => gameRecords[index] === Mark.Cross,
+        position: index,
+      })
+    );
+
+  const resetGame = () => {
+    setTurn(Mark.Cross);
+    setWinner(undefined);
+    setWinningResults([]);
+    setGameRecords(emptyBoard());
+  };
+
   return {
+    createBoard,
     play,
-    player,
+    startOver,
+    resetGame,
+    turn,
     winner,
     gameRecords,
     winningResults,
