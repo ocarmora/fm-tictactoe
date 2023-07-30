@@ -1,19 +1,11 @@
-import classNames from "classnames";
 import Head from "next/head";
-
-import { useTicTacToe } from "../hooks/ticTacToe";
-import { Square } from "../components/Square";
+import { TicTacToe } from "../containers/TicTacToe/";
+import { Mark } from "../hooks/useTicTacToe";
 
 export default function Home() {
-  const {
-    play,
-    createBoard,
-    startOver,
-    resetGame,
-    winningResults,
-    turn,
-    winner,
-  } = useTicTacToe({ playerChoice: "circle" });
+  const handleOnEnd = (result: string | null) => {
+    console.log("winner", result);
+  };
 
   return (
     <>
@@ -26,32 +18,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Turn: {turn}</p>
-      <p>{winner && `${winner} won!`}</p>
-      <ul>
-        {winningResults.map((result, index) => (
-          <li key={`${index}-${result}`}>{result}</li>
-        ))}
-      </ul>
-
-      <button onClick={startOver}>Start over</button>
-      <button onClick={resetGame}>Reset game</button>
-
-      <div className="board">
-        {createBoard(({ isCircle, isCross, position }) => (
-          <Square
-            key={`position-${position}`}
-            onClick={() => play(position)}
-            className={classNames("board__square", {
-              "board__square--circle": isCircle(),
-              "board__square--cross": isCross(),
-            })}
-          >
-            <h4>{isCircle() && "O"}</h4>
-            <h4>{isCross() && "X"}</h4>
-          </Square>
-        ))}
-      </div>
+      <TicTacToe onEnd={handleOnEnd} playerChoice={Mark.Circle} />
     </>
   );
 }
