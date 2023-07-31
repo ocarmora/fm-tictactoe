@@ -4,6 +4,7 @@ import { Mark, useTicTacToe } from "../../hooks/useTicTacToe";
 import { FC, useState } from "react";
 import { TicTacToeProps } from "./TicTacToe.types";
 import { Turn } from "../../components/Turn/Turn";
+import { ResetButton } from "../../components/ResetButton/ResetButton";
 
 export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
   const [winningSquaresIndex, setWinningSquaresIndex] = useState<Array<number>>(
@@ -37,7 +38,7 @@ export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/logo.svg" alt="Tic Tac Toe" />
         <Turn mark={turn} />
-        <button onClick={resetGame}>#reset</button>
+        <ResetButton onClick={resetGame} />
       </div>
 
       <div className="TicTacToe__board">

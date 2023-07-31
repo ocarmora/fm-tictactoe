@@ -6,6 +6,7 @@
   --color-light-yellow: #f2b137;
   --color-lighter-yellow: #ffc860;
   --color-silver: #a8bfc9;
+  --color-light-silver: #dbe8ed;
 }
 
 html,
@@ -96,7 +97,7 @@ a {
   display: flex;
   width: 140px;
   background-color: var(--color-semi-dark-navy);
-  height: 100%;
+  height: 52px;
   border-radius: 10px;
   box-shadow: inset 0 -4px 0 #10212a;
   align-items: center;
@@ -106,4 +107,18 @@ a {
   font-weight: 600;
   letter-spacing: 1px;
   gap: 13px;
+}
+
+.TicTacToe__reset-button {
+  background-color: var(--color-silver);
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  box-shadow: inset 0 -4px 0 #6b8997;
+  height: 52px;
+  width: 52px;
+}
+
+.TicTacToe__reset-button:hover {
+  background-color: var(--color-light-silver);
 }
