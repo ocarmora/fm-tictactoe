@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import { TicTacToeProps } from "./TicTacToe.types";
 import { Turn } from "../../components/Turn/Turn";
 import { ResetButton } from "../../components/ResetButton/ResetButton";
+import { Result } from "../../components/Result/Result";
 
 export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
   const [winningSquaresIndex, setWinningSquaresIndex] = useState<Array<number>>(
@@ -60,19 +61,21 @@ export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
       </div>
 
       <div className="TicTacToe__footer">
-        <div className="TicTacToe__record TicTacToe__record--blue">
-          <span>X (YOU)</span>
-          <span>14</span>
-        </div>
-        <div className="TicTacToe__record TicTacToe__record--gray">
-          <span>Ties</span>
-          <span>32</span>
-        </div>
-        <div className="TicTacToe__record TicTacToe__record--orange">
-          <span>0 (CPU)</span>
-          <span>11</span>
-        </div>
-        x
+        <Result
+          title="X (you)"
+          value="14"
+          className="TicTacToe__result TicTacToe__result--blue"
+        />
+        <Result
+          title="Ties"
+          value="32"
+          className="TicTacToe__result TicTacToe__result--silver"
+        />
+        <Result
+          title="O (CPU)"
+          value="11"
+          className="TicTacToe__result TicTacToe__result--yellow"
+        />
       </div>
     </div>
   );
