@@ -3,9 +3,9 @@ import { Square } from "../../components/Square";
 import { Mark, useTicTacToe } from "../../hooks/useTicTacToe";
 import { FC, useState } from "react";
 import { TicTacToeProps } from "./TicTacToe.types";
-import { Turn } from "../../components/Turn/Turn";
-import { ResetButton } from "../../components/ResetButton/ResetButton";
-import { Result } from "../../components/Result/Result";
+import { Turn } from "../../components/Turn";
+import { ResetButton } from "../../components/ResetButton";
+import { Result } from "../../components/Result";
 
 export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
   const [winningSquaresIndex, setWinningSquaresIndex] = useState<Array<number>>(
