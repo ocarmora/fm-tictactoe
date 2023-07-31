@@ -12,6 +12,8 @@ export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
     []
   );
 
+  const [results, setResults] = useState<Array<string>>([]);
+
   const handleOnGameOver = ({
     winner,
     winningSquaresIndex,
@@ -19,7 +21,13 @@ export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
     winner?: string;
     winningSquaresIndex?: Array<number>;
   }) => {
-    if (winningSquaresIndex) setWinningSquaresIndex(winningSquaresIndex);
+    if (winner && winningSquaresIndex) {
+      setResults([...results, winner]);
+      setWinningSquaresIndex(winningSquaresIndex);
+      return;
+    }
+
+    setResults([...results, "draw"]);
   };
 
   const { play, createGameBoard, resetGame, turn } = useTicTacToe({
@@ -63,17 +71,17 @@ export const TicTacToe: FC<TicTacToeProps> = ({ playerChoice, onEnd }) => {
       <div className="TicTacToe__footer">
         <Result
           title="X (you)"
-          value="14"
+          value={results.filter((result) => result === "cross").length}
           className="TicTacToe__result TicTacToe__result--blue"
         />
         <Result
           title="Ties"
-          value="32"
+          value={results.filter((result) => result === "draw").length}
           className="TicTacToe__result TicTacToe__result--silver"
         />
         <Result
           title="O (CPU)"
-          value="11"
+          value={results.filter((result) => result === "circle").length}
           className="TicTacToe__result TicTacToe__result--yellow"
         />
       </div>

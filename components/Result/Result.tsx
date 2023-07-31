@@ -3,7 +3,7 @@ import { FC } from "react";
 export type ResultProps = {
   className?: string;
   title: string;
-  value: string;
+  value: number;
 };
 
 export const Result: FC<ResultProps> = ({ title, value, className }) => {

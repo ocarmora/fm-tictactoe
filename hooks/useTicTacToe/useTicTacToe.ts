@@ -39,7 +39,7 @@ export const useTicTacToe = ({
     });
 
   const resetGame = () => {
-    setTurn(Mark.Cross);
+    // setTurn(Mark.Cross);
     setPlays(emptyBoard());
     setGameOver(false);
 
